@@ -10,6 +10,11 @@ public class BDDFakeJSONApp {
 
     private static String URI = "https://app.fakejson.com/";
 
+    /**
+     *
+     * @return
+     */
+
     public static Response getResponse() {
         LastLogin lastLogin = LastLogin.builder()
                 .dateTime("dateTime|UNIX")
@@ -29,10 +34,10 @@ public class BDDFakeJSONApp {
                 .data(data)
                 .build();
 
-        return RestAssured.given().baseUri(URI).
-                            and().header("Content-Type", "application/json").
-                            and().body(payload).
-                        when().
-                            post("/q");
+        return RestAssured.given().baseUri(URI)
+                    .and().header("Content-Type", "application/json")
+                    .and().body(payload)
+                .when().
+                    post("/q");
     }
 }

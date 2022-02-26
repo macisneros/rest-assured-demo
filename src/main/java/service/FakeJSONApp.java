@@ -11,6 +11,11 @@ public class FakeJSONApp {
 
     private static String URI = "https://app.fakejson.com/";
 
+    /**
+     *
+     * @return
+     */
+
     private static Response getServerData() {
         LastLogin lastLogin = LastLogin.builder()
                 .dateTime("dateTime|UNIX")
@@ -39,6 +44,11 @@ public class FakeJSONApp {
         return request.post("/q");
     }
 
+    /**
+     *
+     * @return
+     */
+
     public static Data[] getUsers() {
 
         Response response = getServerData();
@@ -46,6 +56,11 @@ public class FakeJSONApp {
 
         return users;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public static Data getUser(int id) {
 
