@@ -15,7 +15,7 @@ public class DemoRestAssuredBDD {
     @Test
     public void VerifyUserResponseStructure() {
         BDDFakeJSONApp.getResponse()
-                .then().assertThat().body("$[0]", hasKey("id"))
+                .then().assertThat().body("[0]", hasKey("id"))
                 .and().body("[0]", hasKey("email"))
                 .and().body("[0]", hasKey("gender"))
                 .and().body("[0]", hasKey("last_login"));
@@ -70,11 +70,5 @@ public class DemoRestAssuredBDD {
     public void nameIsOnlyChars() {
         BDDFakeJSONApp.getResponse().
                 then().assertThat().body("[0]['id']", matchesPattern("[a-zA-Z]+"));
-    }
-
-    @Test
-    public void emailProperlyWritten() {
-        BDDFakeJSONApp.getResponse().
-                then().assertThat().body("[0]['email']", matchesPattern("^(.+)@(\\\\S+)$"));
     }
 }

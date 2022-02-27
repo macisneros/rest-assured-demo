@@ -26,7 +26,7 @@ public class BDDFakeJSONApp {
                 .email("internetEmail")
                 .lastLogin(lastLogin)
                 .gender("personGender")
-                .repeat(5)
+                .repeat(1)
                 .build();
 
         Payload payload = Payload.builder()
