@@ -57,8 +57,8 @@ public class DemoRestAssured {
     public void VerifyLastLoginResponseStructure() {
         Response response = FakeJSONApp.getServerData();
 
-        Assert.assertTrue(response.jsonPath().get("[0]['last_login']['date_time']"), "Last login does not contain field date_time");
-        Assert.assertTrue(response.jsonPath().get("[0]['last_login']['ip4']"), "Last login does not contain field ip4");
+        Assert.assertNotNull(response.jsonPath().get("[0]['last_login']['date_time']"), "Last login does not contain field date_time");
+        Assert.assertNotNull(response.jsonPath().get("[0]['last_login']['ip4']"), "Last login does not contain field ip4");
     }
 
     @Test(priority = 0, groups = "reggresion")
