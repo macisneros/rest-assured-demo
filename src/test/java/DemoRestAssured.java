@@ -39,12 +39,11 @@ public class DemoRestAssured {
     @Severity(SeverityLevel.BLOCKER)
     public void VerifyUserResponseStructure() {
         Response response = FakeJSONApp.getServerData();
-        String jsonUser = response.jsonPath().get("[0]").toString();
 
-        Assert.assertTrue(jsonUser.contains("id="), "User does not contain field id");
-        Assert.assertTrue(jsonUser.contains("email="), "User does not contain field email");
-        Assert.assertTrue(jsonUser.contains("gender="), "User does not contain field gender");
-        Assert.assertTrue(jsonUser.contains("last_login="), "User does not contain field last_login");
+        Assert.assertNotNull(response.jsonPath().get("[0]['id']"), "User does not contain field id");
+        Assert.assertNotNull(response.jsonPath().get("[0]['email']"), "User does not contain field email");
+        Assert.assertNotNull(response.jsonPath().get("[0]['gender']"), "User does not contain field gender");
+        Assert.assertNotNull(response.jsonPath().get("[0]['last_login']"), "User does not contain field last_login");
     }
 
     @Test(priority = 0, groups = "reggresion")
@@ -57,10 +56,9 @@ public class DemoRestAssured {
     @Severity(SeverityLevel.BLOCKER)
     public void VerifyLastLoginResponseStructure() {
         Response response = FakeJSONApp.getServerData();
-        String jsonLastLogin = response.jsonPath().get("[0]['last_login']").toString();
 
-        Assert.assertTrue(jsonLastLogin.contains("date_time="), "Last login does not contain field date_time");
-        Assert.assertTrue(jsonLastLogin.contains("ip4="), "Last login does not contain field ip4");
+        Assert.assertTrue(response.jsonPath().get("[0]['last_login']['date_time']"), "Last login does not contain field date_time");
+        Assert.assertTrue(response.jsonPath().get("[0]['last_login']['ip4']"), "Last login does not contain field ip4");
     }
 
     @Test(priority = 0, groups = "reggresion")
