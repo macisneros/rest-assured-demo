@@ -1,25 +1,44 @@
 
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.EmailValidator;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pojo.lombok.Data;
 import pojo.lombok.LastLogin;
 import service.FakeJSONApp;
+import utils.Hook;
 
+@Listeners(Hook.class)
+@Epic("Job application")
+@Feature("Server fetches data on demand")
 public class DemoRestAssured {
 
-    @Test
+    @Test(priority = 0, groups = "reggresion")
+    @Story("Endpoint is available to query")
+    @Description(
+        "The objective is to verify endpoint is available to fetch the response"
+    )
+    @Severity(SeverityLevel.CRITICAL)
     public void ApiIsExposed() {
-        Response response = FakeJSONApp.getResponse();
+        Response response = FakeJSONApp.getServerData();
 
         Assert.assertEquals(response.statusCode(), 200, "Api not available");
     }
 
-    @Test
+    @Test(priority = 0, groups = "reggresion")
+    @Story("Verify structure of user data")
+    @Description(
+        "The objective is to verify fields within payload are being " +
+        "fetched in response. Example, if sent payload contain " +
+        "id, email and gender then response contains those fields " +
+        "and its respective values"
+    )
+    @Severity(SeverityLevel.BLOCKER)
     public void VerifyUserResponseStructure() {
-        Response response = FakeJSONApp.getResponse();
+        Response response = FakeJSONApp.getServerData();
         String jsonUser = response.jsonPath().get("[0]").toString();
 
         Assert.assertTrue(jsonUser.contains("id="), "User does not contain field id");
@@ -28,16 +47,31 @@ public class DemoRestAssured {
         Assert.assertTrue(jsonUser.contains("last_login="), "User does not contain field last_login");
     }
 
-    @Test
+    @Test(priority = 0, groups = "reggresion")
+    @Story("Verify structure of user data -> last login")
+    @Description(
+        "The objective is to verify fields within payload are being fetched " +
+        "in response. Example, if sent payload contain id, email and gender then " +
+        "response contains those fields and its respective values"
+    )
+    @Severity(SeverityLevel.BLOCKER)
     public void VerifyLastLoginResponseStructure() {
-        Response response = FakeJSONApp.getResponse();
+        Response response = FakeJSONApp.getServerData();
         String jsonLastLogin = response.jsonPath().get("[0]['last_login']").toString();
 
         Assert.assertTrue(jsonLastLogin.contains("date_time="), "Last login does not contain field date_time");
         Assert.assertTrue(jsonLastLogin.contains("ip4="), "Last login does not contain field ip4");
     }
 
-    @Test
+    @Test(priority = 0, groups = "reggresion")
+    @Story("None user data is null")
+    @Description(
+        "The objective is to verify fields within payload are being " +
+        "fetched in response. Example, if sent payload contain " +
+        "id, email and gender then response contains those fields " +
+        "and its respective values"
+    )
+    @Severity(SeverityLevel.BLOCKER)
     public void NoneNullValuesForOneUser() {
         Data user = FakeJSONApp.getUser(0);
 
@@ -47,7 +81,15 @@ public class DemoRestAssured {
         Assert.assertNotNull(user.getLastLogin(), "User field last login is null");
     }
 
-    @Test
+    @Test(priority = 0, groups = "reggresion")
+    @Story("None last login data is null")
+    @Description(
+        "The objective is to verify fields within payload are being " +
+        "fetched in response. Example, if sent payload contain " +
+        "id, email and gender then response contains those fields " +
+        "and its respective values"
+    )
+    @Severity(SeverityLevel.BLOCKER)
     public void NoneNullValuesForOneUserLastLogin() {
         Data user = FakeJSONApp.getUser(0);
         LastLogin lastLogin = user.getLastLogin();
@@ -56,7 +98,13 @@ public class DemoRestAssured {
         Assert.assertNotNull(lastLogin.getIpv4(), "User field ipv4 is null");
     }
 
-    @Test
+    @Test(priority = 1, groups = "reggresion")
+    @Story("Ipv4 address is written in the proper format")
+    @Description(
+        "The objective is to verify ipv4 in response is valid. In other words, it has " +
+        "to follow the format XXX.XXX.XXX.XXX where XXX is a number between 0 and 255"
+    )
+    @Severity(SeverityLevel.NORMAL)
     public void ipv4ProperlyWritten() {
         LastLogin lastLogin = FakeJSONApp.getUser(0).getLastLogin();
 
@@ -71,7 +119,13 @@ public class DemoRestAssured {
 
     }
 
-    @Test
+    @Test(priority = 1, groups = "reggresion")
+    @Story("Gender value is only male or female")
+    @Description(
+        "The objective is to verify gender in response can contains " +
+        "just one of these values either male or female."
+    )
+    @Severity(SeverityLevel.NORMAL)
     public void genderIsAnExpectedValue() {
         Data user = FakeJSONApp.getUser(0);
 
@@ -79,7 +133,13 @@ public class DemoRestAssured {
         Assert.assertTrue(user.getGender().equals("male") || user.getGender().equals("female"), "gender is not an expected value");
     }
 
-    @Test
+    @Test(priority = 1, groups = {"reggresion"})
+    @Story("User name is composed only by letters")
+    @Description(
+        "The objective is to verify name in response is written " +
+        "only with literal strings."
+    )
+    @Severity(SeverityLevel.NORMAL)
     public void nameIsOnlyChars() {
         Data user = FakeJSONApp.getUser(0);
 
@@ -87,7 +147,13 @@ public class DemoRestAssured {
         Assert.assertTrue(StringUtils.isAlpha(user.getId()), "Name of user does not contains only chars");
     }
 
-    @Test
+    @Test(priority = 1, groups = "reggresion")
+    @Story("Email is written in the proper format")
+    @Description(
+        "The objective is to verify email in response is written " +
+        "in a proper format (xxxxx@xxx.com)"
+    )
+    @Severity(SeverityLevel.NORMAL)
     public void emailProperlyWritten() {
         Data user = FakeJSONApp.getUser(0);
 

@@ -1,5 +1,6 @@
 package service;
 
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -12,11 +13,20 @@ public class FakeJSONApp {
     private static String URI = "https://app.fakejson.com/";
 
     /**
+     * Send a payload to query the server to fetch an user's data such as:
+     * <ul>
+     *     <li>name</li>
+     *     <li>email</li>
+     *     <li>gender</li>
+     *     <li>ipv4 addres</li>
+     *     <li>time last connection</li>
+     * </ul>
      *
-     * @return
+     * @return  Reply of the server query
      */
 
-    private static Response getServerData() {
+    @Step("Query server for users' information")
+    public static Response getServerData() {
         LastLogin lastLogin = LastLogin.builder()
                 .dateTime("dateTime|UNIX")
                 .ipv4("internetIP4")
@@ -44,11 +54,12 @@ public class FakeJSONApp {
         return request.post("/q");
     }
 
-    /**
+    /** Fetch data from many users
      *
-     * @return
+     * @return  Array of deserialized users data
      */
 
+    @Step("Get data from many users deserialized")
     public static Data[] getUsers() {
 
         Response response = getServerData();
@@ -57,11 +68,13 @@ public class FakeJSONApp {
         return users;
     }
 
-    /**
+    /** Fetch data just from one user
      *
-     * @return
+     * @param id  Index of the selected user you want data
+     * @return    Deserialized data of the selected user
      */
 
+    @Step("Get data from user {0} deserialized")
     public static Data getUser(int id) {
 
         Data[] users = getUsers();
@@ -69,8 +82,4 @@ public class FakeJSONApp {
         return users[id];
     }
 
-    public static Response getResponse() {
-
-        return getServerData();
-    }
 }
