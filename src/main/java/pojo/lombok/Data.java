@@ -6,7 +6,7 @@ import lombok.extern.jackson.Jacksonized;
 
 @lombok.Data
 @Builder
-@Jacksonized
+
 public class Data {
 
     @SerializedName("id")
