@@ -5,7 +5,6 @@ import lombok.Builder;
 
 @lombok.Data
 @Builder
-
 public class Data {
 
     @SerializedName("id")

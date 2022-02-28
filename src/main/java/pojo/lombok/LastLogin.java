@@ -10,11 +10,11 @@ import lombok.Data;
 
 public class LastLogin {
 
-    @SerializedName("date_time")
+//    @SerializedName("date_time")
     @Expose
     private String dateTime;
 
-    @SerializedName("ip4")
+//    @SerializedName("ip4")
     @Expose
     private String ipv4;
 
