@@ -37,7 +37,7 @@ public class FakeJSONApp {
                 .email("internetEmail")
                 .lastLogin(lastLogin)
                 .gender("personGender")
-                .repeat(1)
+                .repeat(5)
                 .build();
 
         Payload payload = Payload.builder()
